@@ -1,0 +1,46 @@
+{% import "components/config.html" as config %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{ config.config("Sign Up", "Login") }}
+    <style>
+      img {
+        transform: scaleX(-1);
+      }
+
+      .container {
+        position: absolute;
+        left: 10vw;
+        top: 50vh;
+        transform: translateY(-50%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <a href="/">
+        <p class="logo">Tee Vista</p>
+      </a>
+
+      <div class="container">
+        <p class="title">Sign Up</p>
+        <form method="POST" action="">
+          {{ form.hidden_tag() }}
+          <section>
+            <label for="username">Username</label>
+            {{ form.username }}
+          </section>
+          <section>
+            <label for="password">Password</label>
+            {{ form.password }}
+            <p>Already have an account?<a href="/login"> Sign In</a></p>
+          </section>
+          {{ form.submit }}
+        </form>
+      </div>
+    </div>
+
+    <img src="/static/assets/register_screen_bg.webp" alt="register_bg" />
+  </body>
+</html>

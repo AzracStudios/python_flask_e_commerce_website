@@ -1,0 +1,30 @@
+{% import "components/navbar_component.html" as nav %} 
+{% import "components/config.html" as config %}
+{% import "components/order_item.html" as order_item %}
+{% import "components/footer.html" as footer %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{ config.config("Orders", "Cart") }}
+  </head>
+  <body>
+    {{ nav.navbar(current_user) }}
+    <main>
+        <p class="title">Orders</p>
+        <div class="break"></div>
+        {% set orders = current_user.user_data.order %}
+
+        {% if orders %}
+            {% for item in orders %}
+                {{ order_item.order_item(item, loop.index, item.qty) }}
+            {% endfor %}
+
+        {% else %}
+            <p class="empty">No Orders Placed! <a href="/brands">  Continue shopping</a></p>
+        {% endif %}
+
+    </main>
+    {{ footer.footer() }}
+  </body>
+</html>

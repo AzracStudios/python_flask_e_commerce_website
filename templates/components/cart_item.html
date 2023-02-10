@@ -1,0 +1,18 @@
+{% macro cart_item(cart_item, index, qty) %}
+<div class="cart_item">
+  <p class="index">{{ index }}</p>
+  <img src="{{ cart_item.product.img }}" alt="product_img" />
+  <div class="container">
+    <p class="name">{{ cart_item.product.name }}</p>
+    <p class="price">$ {{ cart_item.product.price }}</p>
+  </div>
+  <div class="qty_sel">
+    <a href="?qty={{ qty|int + 1 }}&id={{ cart_item.product.id }}"><button class="add">＋</button></a>
+    <p class="val">{{qty}}</p>
+    <a
+      href="?qty={{ qty|int - 1 }}&id={{ cart_item.product.id }}"
+      ><button class="rem">－</button></a
+    >
+  </div>
+</div>
+{% endmacro %}

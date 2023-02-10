@@ -1,0 +1,39 @@
+{% import "components/navbar_component.html" as nav %} {% import
+"components/config.html" as config %} {% import "components/footer.html" as
+footer %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{ config.config(props.product.name + " | Tee Vista", "Product") }}
+  </head>
+  <body>
+    {{ nav.navbar(current_user) }}
+    <main>
+      <img src="{{ props.product.img }}" alt="{{ props.product.name }}" />
+      <div class="wrapper">
+        <p class="name">{{ props.product.name }} - {{ props.product.brand }}</p>
+        <p class="price">$ {{ props.product.price }}</p>
+        <hr />
+        <p class="description">
+          <strong>Description:</strong><br />{{ props.product.description }}
+        </p>
+        <hr />
+
+        <div class="qty_sel">
+          <a href="?qty={{ props.qty|int + 1 }}"><button class="add">＋</button></a>
+          <p class="val">{{props.qty}}</p>
+          <a
+            href="?qty={% if props.qty|int > 1 %}{{ props.qty|int - 1}}{%else%}{{ 1 }}{%endif%}"
+            ><button class="rem">－</button></a
+          >
+        </div>
+
+        <form method="post" action="">
+          {{ props.form.submit }}
+        </form>
+      </div>
+    </main>
+    {{ footer.footer() }}
+  </body>
+</html>

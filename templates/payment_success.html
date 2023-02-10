@@ -1,0 +1,28 @@
+{% import "components/navbar_component.html" as nav %} 
+{% import "components/config.html" as config %} 
+{% import "components/footer.html" as footer %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{ config.config("Payment Success!", "Payment_Success") }}
+  </head>
+  <body>
+    {{ nav.navbar(current_user) }}
+
+    <main>
+      <p class="title">Order placed successfully!</p>
+      <p class="subtext">Thankyou for shopping with us</p>
+      <div class="ctrls">
+        <a href="/brands">
+            <button>Continue shopping</button>
+        </a>
+        <a href="/orders">
+            <button>View order</button>
+        </a>
+      </div>
+    </main>
+
+    {{ footer.footer() }}
+  </body>
+</html>

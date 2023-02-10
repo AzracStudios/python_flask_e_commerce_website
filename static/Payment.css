@@ -1,0 +1,102 @@
+@keyframes fade {
+  0% {
+      opacity: 0;
+  }
+
+  100% {
+      opacity: 1;
+  }
+}
+
+main {
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+form {
+  display: flex;
+  gap: 5vw;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 5vh;
+  opacity: 0;
+}
+
+.col:nth-child(1) {
+  animation: fade forwards 0.5s ease-in-out;
+}
+
+.col:nth-child(2) {
+  animation: fade forwards 0.5s 0.2s ease-in-out;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+}
+
+label {
+  font-size: 1.3rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+input[type="text"] {
+  width: 30vw;
+  height: 10vh;
+  border: none;
+  outline: 2px solid rgba(0, 0, 0, 0.6);
+  background: transparent;
+  padding: 0.6rem;
+  border-radius: 0.6rem;
+  font-size: 1.3rem;
+}
+
+.summary {
+  justify-self: flex-end;
+  align-self: flex-end;
+  margin-right: 2vw;
+  text-align: right;
+}
+
+.summary p {
+  font-size: 1.2rem;
+}
+
+.summary .title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1vh;
+}
+
+.smbreak {
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  width: 100%;
+  height: 2px;
+  border-radius: 1rem;
+  background: rgb(216, 216, 216);
+}
+
+input[type="submit"] {
+  outline: 2px solid black;
+  border: none;
+  border-radius: 0.2rem;
+  background: transparent;
+  height: 6vh;
+  /* width: 12vw; */
+  font-size: 1.2rem;
+  font-weight: 600;
+  transition: 0.2s linear;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background: black;
+  color: white;
+}

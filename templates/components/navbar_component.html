@@ -1,0 +1,48 @@
+{% macro  navbar(current_user) %}
+<nav>
+  <a href="/">Tee Vista</a>
+  <ul>
+    <li>
+      <a href="/brands">
+        <p>Brands</p>
+        <div class="hover_line"></div>
+      </a>
+    </li>
+
+    <li>
+      <a href="/cart">
+        <p>Cart</p>
+        <div class="hover_line"></div>
+      </a>
+    </li>
+    
+    <li>
+      <a href="/orders">
+        <p>Orders</p>
+        <div class="hover_line"></div>
+      </a>
+    </li>
+
+    <li>
+      <a href="/about">
+        <p>About Us</p>
+        <div class="hover_line"></div>
+      </a>
+    </li>
+
+    <li>
+      {% if current_user.is_authenticated %}
+        <a href="/logout">
+          <p title="Logout">Hello, {{ current_user.user_data.username }}</p>
+          <div class="hover_line"></div>
+        </a>
+      {% else %}
+        <a href="/login">
+          <p>Login</p>
+          <div class="hover_line"></div>
+        </a>
+      {% endif %}
+    </li>
+  </ul>
+</nav>
+{% endmacro %}

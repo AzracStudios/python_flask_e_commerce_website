@@ -1,0 +1,64 @@
+@keyframes fade_blink {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2vh;
+  width: 100vw;
+  height: 80vh;
+  opacity: 0;
+  animation: fade_blink forwards 1s ease-in-out;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.subtext {
+  font-size: 2rem;
+}
+
+button {
+  height: 6vh;
+  width: 20vw;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+
+  outline: 2px solid black;
+  border: none;
+  border-radius: 0.2rem;
+  background: transparent;
+  transition: 0.2s linear;
+  cursor: pointer;
+}
+
+button:hover {
+  background: black;
+  color: white;
+}
+
+.ctrls {
+  display: flex;
+  align-items: center;
+  margin-top: 4vh;
+  gap: 2vh;
+  flex-direction: column;
+  
+}

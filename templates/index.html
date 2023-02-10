@@ -1,0 +1,35 @@
+{% import "components/navbar_component.html" as nav %}
+{% import "components/config.html" as config %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{ config.config("Home") }}
+  </head>
+  <body>
+    {{ nav.navbar(current_user) }}
+
+    <main>
+      <div class="overlay"></div>
+      <div class="hero">
+        <div class="content-wrapper">
+          <p class="title">ALL YOUR OPULENCE AT ONE STOP</p>
+          <p class="subtext">
+            Luxury marketing platform, the first and only one of its kind.
+            Products from your favorite designer put up in one place.
+          </p>
+          <a href="/brands"><button>Shop Now</button></a>
+        </div>
+
+        <img src="/static/assets/hero_img.webp" alt="lv_bag_shoe" />
+      </div>
+
+      <div class="clothing">
+        <img src="/static/assets/clothing.avif" alt="gc_clothing" />
+      </div>
+      <div class="bags">
+        <img src="/static/assets/bag.avif" alt="ch_bag" />
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,91 @@
+img {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  object-position: center top;
+  position: absolute;
+  top: 0px;
+  z-index: 0;
+}
+
+.content * {
+  z-index: 2;
+}
+
+.logo {
+  position: absolute;
+  left: 2vw;
+  top: 2vh;
+  font-size: 1.7rem;
+  color: rgb(0, 0, 0);
+}
+
+body {
+  overflow: hidden;
+}
+
+.container {
+  position: absolute;
+  right: 40vw;
+  top: 50vh;
+  transform: translate(90%, -50%);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4vh;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+label {
+  font-size: 1.2rem;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 30vw;
+  height: 10vh;
+  border: none;
+  outline: none;
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.5);
+  font-size: 1.5rem;
+  padding: 0.5rem;
+}
+
+input[type="submit"] {
+  cursor: pointer;
+  outline: none;
+  border: none;
+  width: 10vw;
+  height: 7vh;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+  transition: 0.2s linear;
+}
+
+input[type="submit"]:hover {
+  background: rgba(240, 240, 240, 0.6);
+}
+
+.title {
+  font-size: 3rem;
+  margin-bottom: 2vh;
+}
+
+section {
+  display: flex;
+  gap: 1vh;
+  flex-direction: column;
+}
+
+section p {
+  margin-top: 1vh;
+}
+
+section a {
+  color: rgba(0, 0, 0, 0.687);
+}

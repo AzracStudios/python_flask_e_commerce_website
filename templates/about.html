@@ -1,0 +1,26 @@
+{% import "components/navbar_component.html" as nav %} {% import
+"components/config.html" as config %} {% import "components/footer.html" as
+footer %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{ config.config("About") }}
+  </head>
+  <body>
+    {{ nav.navbar(current_user) }}
+    <main>
+        <p class="title">About Us</p>
+      <p>
+        Tee Vista, a luxury brand shopping website that specializes in selling
+        high-end, premium products from luxury brands all at one stop. We cater
+        to consumers who are looking for top-quality, stylish, and exclusive
+        goods and are willing to pay a premium price for them. We offer a
+        curated selection of products, provide a seamless and user-friendly
+        shopping experience, and focus on building trust and credibility with
+        customers through exceptional customer service and after-sales support.
+      </p>
+    </main>
+    {{ footer.footer() }}
+  </body>
+</html>

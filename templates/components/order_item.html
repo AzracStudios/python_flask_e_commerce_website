@@ -1,0 +1,12 @@
+{% macro order_item(cart_item, index, qty) %}
+<div class="cart_item">
+  <p class="index">{{ index }}</p>
+  <img src="{{ cart_item.product.img }}" alt="product_img" />
+  <div class="container">
+    <p class="name">{{ cart_item.product.name }}</p>
+    <p class="qty">{{ qty }} {% if qty == 1 %} Piece {% else %} Pieces {% endif %}</p>
+    <p class="price">$ {{ cart_item.product.price }}</p>
+  </div>
+  <p class="right">Arriving in 10 days</p>
+</div>
+{% endmacro %}

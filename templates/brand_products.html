@@ -1,0 +1,36 @@
+{% import "components/navbar_component.html" as nav %} 
+{% import "components/config.html" as config %} 
+{% import "components/footer.html" as footer %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{ config.config(props.brand.name, "Brand_Products") }}
+  </head>
+  <body>
+    {{ nav.navbar(current_user) }}
+    <main>
+      <div class="head">
+        <a href="/brands"><img src="/static/assets/back.svg" alt="back" /></a>
+        <img src="{{ props.brand.img }}" alt="brand_logo" />
+      </div>
+
+      {% if props.products %}
+      <div class="products_wrapper">
+        {% for product in props.products %}
+        <a href="/{{ props.brand.name|lower }}/products/{{ product.id }}">
+          <div class="product">
+            <img src="{{ product.img }}" alt="product_img" />
+            <p class="name">{{ product.name }}</p>
+            <p class="price">$ {{ product.price }}</p>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+      {% else %}
+      <h1 style="margin-bottom: 30vh">No products under this brand!</h1>
+      {% endif %}
+    </main>
+    {{ footer.footer() }}
+  </body>
+</html>
