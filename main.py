@@ -1,16 +1,13 @@
 # IMPORTS
 import json
 from flask import Flask, render_template as rt, url_for, request, redirect
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import InputRequired, ValidationError
+from forms import *
 
 from flask_bcrypt import Bcrypt
 from flask_login import login_user, LoginManager, login_required, logout_user, current_user, UserMixin
 import uuid
 
-from micro_db import database
-import db_init
+from _global import *
 
 # SETUP
 app = Flask(__name__)
@@ -20,12 +17,6 @@ bcrypt = Bcrypt(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login_page"
-
-# DATABASE
-db = database.MicroDB("tee_vista")
-
-# INITIALIZE DATABASE WITH TABLES AND VALUES
-db_init.init(db)
 
 
 # =================
@@ -44,47 +35,6 @@ class User(UserMixin):
 @login_manager.user_loader
 def load_user(user_id):
     return User(db.fetch_one_from_table("users", "id", user_id))
-
-
-# =======
-#  FORMS
-# =======
-class RegisterForm(FlaskForm):
-    username = StringField(validators=[InputRequired()])
-    password = PasswordField(validators=[InputRequired()])
-    submit = SubmitField("Sign Up")
-
-    def validate_username(self, username):
-        existing_username = db.fetch_one_from_table("users", "username",
-                                                    username)
-        if existing_username:
-            raise ValidationError("Username already exists")
-
-
-class LoginForm(FlaskForm):
-    username = StringField(validators=[InputRequired()])
-    password = PasswordField(validators=[InputRequired()])
-    submit = SubmitField("Sign In")
-
-
-class ProductForm(FlaskForm):
-    submit = SubmitField("Add to cart")
-
-
-class CartForm(FlaskForm):
-    submit = SubmitField("Proceed to checkout")
-
-
-class PaymentForm(FlaskForm):
-    card_number = StringField(validators=[InputRequired()])
-    cvv = StringField(validators=[InputRequired()])
-    expiry_date = StringField(validators=[InputRequired()])
-    address = StringField(validators=[InputRequired()])
-    submit = SubmitField("Make payment")
-
-
-class SuccessReturnForm(FlaskForm):
-    submit = SubmitField("Return to shop")
 
 
 # ========
@@ -142,8 +92,10 @@ def register_page():
             "users", {
                 "username": form.username.data,
                 "password": hashed_password.decode("utf8"),
-                "cart": []
+                "cart": [],
+                "orders": []
             })
+
         return redirect(url_for("login_page"))
 
     return rt("register.html", form=form)
@@ -179,7 +131,13 @@ def product_page(brand_name, product_id):
 
     if form.is_submitted():
         qty = request.args.get("qty") or 1
-        current_user_data = current_user.user_data
+        current_user_data = None
+
+        try:
+            current_user_data = current_user.user_data
+        except:
+            return redirect(url_for("login_page"))
+
         current_user_data['cart'].append({"product": product, "qty": qty})
         db.update_on_table("users", current_user_data['username'],
                            current_user_data)
@@ -216,7 +174,7 @@ def cart_page():
                 break
 
         db.update_on_table("users", current_user.user_data['username'],
-                           current_user.user_data)
+                        current_user.user_data)
 
         if form.is_submitted():
             price = 0
@@ -224,15 +182,15 @@ def cart_page():
             for item in current_user.user_data["cart"]:
                 price += float(item["product"]["price"]) * int(item["qty"])
                 print(price,
-                      float(item["product"]["price"]) * int(item["qty"]))
+                    float(item["product"]["price"]) * int(item["qty"]))
 
             return redirect(url_for("payment_page", price=price))
 
         return rt("cart.html",
-                  props={
-                      'current_user': current_user,
-                      'form': form,
-                  })
+                props={
+                    'current_user': current_user,
+                    'form': form,
+                })
     else:
         return redirect(url_for("login_page"))
 
