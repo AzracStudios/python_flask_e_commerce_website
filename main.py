@@ -212,7 +212,7 @@ def payment_page():
 
     if form.validate_on_submit():
         # ADD TO ORDERS PAGE
-        current_user.user_data["order"].append(current_user.user_data["cart"])
+        current_user.user_data["orders"].append(current_user.user_data["cart"])
         current_user.user_data["cart"] = []
         db.update_on_table("users", current_user.user_data['username'],
                            current_user.user_data)
