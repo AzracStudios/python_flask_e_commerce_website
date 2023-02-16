@@ -1,11 +1,9 @@
 # E-commerce App Built With Flask
 
 ## Introduction
-
 This is a simple e-commerce web app built with the flask framework for python. The templating is handled with the "Jinja2" framework.
 
 The frontend is built entirely using vanilla html and css. All the backend functionality, such as form submission handling, routing and static file serving are handled by flask. 
-
 
 ## Micro DB
 
@@ -44,6 +42,16 @@ To run the app:
 This should start the flask server, which listens at port 5000 by default. Click [here to open](http://127.0.0.1:5000/)
 
 Note: The commands might vary slightly based on the platform.
+
+## Preview
+![Home](./git_assets/home.png)
+![Register](./git_assets/register.png)
+![Login](./git_assets/login.png)
+![Product](./git_assets/product.png)
+![Cart](./git_assets/cart.png)
+![Payment](./git_assets/payment.png)
+![Order placed](./git_assets/order_placed.png)
+
 
 ## Conclusion
 
