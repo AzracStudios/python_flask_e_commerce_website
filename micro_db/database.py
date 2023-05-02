@@ -75,12 +75,10 @@ class MicroDB:
 
     def delete_on_table(self, name, ident):
         # Get the table and delete the row at the identifier
-        table = self.db[name]
-        for i, row in enumerate(table):
+        for i, row in enumerate(self.db[name]):
             if row[self.db["schema"][name]["unique"]] == ident:
-                del table[i]
+                del self.db[name][i]
 
-        self.db[name] = table
         self.write_db()
 
     def fetch_one_from_table(self, name, column, value):

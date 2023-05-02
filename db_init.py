@@ -1,10 +1,11 @@
 def init(db):
     db.create_table("brands", ["id", "name", "img"], "name")
-    db.create_table("products",
-                    ["id", "name", "price", "img", "qty", "description", "brand"],
-                    "name")
+    db.create_table(
+        "products",
+        ["id", "name", "price", "img", "qty", "description", "brand"], "name")
 
-    db.create_table("users", ["id", "username", "password", "cart", "orders"], "username")
+    db.create_table("users", ["id", "username", "password", "address", "cart", "orders"],
+                    "username")
 
     # ADD BRANDS
     db.add_to_table("brands", {
@@ -92,4 +93,3 @@ def init(db):
             "Faded high-rise jeans featuring pockets on the front and rear patch pockets. Flared hems.",
             "brand": "Zara"
         })
-

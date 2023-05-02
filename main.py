@@ -7,6 +7,9 @@ from flask_bcrypt import Bcrypt
 from flask_login import login_user, LoginManager, login_required, logout_user, current_user, UserMixin
 import uuid
 
+from werkzeug.utils import secure_filename
+import os
+
 from _global import *
 
 # SETUP
@@ -40,6 +43,90 @@ def load_user(user_id):
 # ========
 #  ROUTES
 # ========
+
+
+## ADMIN
+@app.route("/admin", methods=["GET"])
+def admin():
+    return rt("admin/dash.html")
+
+
+@app.route("/admin/products/", methods=["GET"])
+def admin_products():
+    return rt("admin/products.html",
+              products=db.fetch_all_from_table("products"))
+
+
+@app.route("/admin/products/delete/<product_name>", methods=["GET"])
+def admin_delete_product(product_name):
+    db.delete_on_table("products", product_name)
+    return redirect(url_for("admin_products"))
+
+
+@app.route("/admin/products/new", methods=["GET", "POST"])
+def admin_new_product():
+
+    form = NewProductForm()
+
+    if form.validate_on_submit():
+        file = form.image.data
+        rel_path = os.path.join("static/assets/products",
+                                secure_filename(file.filename))
+        file.save(
+            os.path.join(os.path.abspath(os.path.dirname(__file__)), rel_path))
+
+        db.add_to_table(
+            "products", {
+                "name": form.name.data,
+                "price": form.price.data,
+                "qty": form.qty.data,
+                "description": form.description.data,
+                "brand": form.brand.data,
+                "img": f"/{rel_path}",
+            })
+
+        return redirect(url_for("admin_products"))
+
+    return rt("admin/new_product.html", form=form)
+
+
+@app.route("/admin/brands/", methods=["GET"])
+def admin_brands():
+    return rt("admin/brands.html", brands=db.fetch_all_from_table("brands"))
+
+
+@app.route("/admin/brands/delete/<brand_name>", methods=["GET"])
+def admin_delete_brand(brand_name):
+    db.delete_on_table("brands", brand_name)
+    return redirect(url_for("admin_brands"))
+
+
+@app.route("/admin/brands/new", methods=["GET", "POST"])
+def admin_new_brand():
+
+    form = NewBrandForm()
+
+    if form.validate_on_submit():
+        file = form.image.data
+        rel_path = os.path.join("static/assets/",
+                                secure_filename(file.filename))
+        print(
+            os.path.join(os.path.abspath(os.path.dirname(__file__)), rel_path))
+        file.save(
+            os.path.join(os.path.abspath(os.path.dirname(__file__)), rel_path))
+        db.add_to_table("brands", {
+            "name": form.name.data,
+            "img": f"/{rel_path}",
+        })
+
+        return redirect(url_for("admin_brands"))
+
+    return rt("admin/new_brand.html", form=form)
+
+
+@app.route("/admin/orders/", methods=["GET"])
+def admin_orders():
+    return rt("admin/orders.html", users=db.fetch_all_from_table("users"))
 
 
 # HOME PAGE
@@ -92,6 +179,7 @@ def register_page():
             "users", {
                 "username": form.username.data,
                 "password": hashed_password.decode("utf8"),
+                "address": form.address.data,
                 "cart": [],
                 "orders": []
             })
@@ -174,7 +262,7 @@ def cart_page():
                 break
 
         db.update_on_table("users", current_user.user_data['username'],
-                        current_user.user_data)
+                           current_user.user_data)
 
         if form.is_submitted():
             price = 0
@@ -182,15 +270,15 @@ def cart_page():
             for item in current_user.user_data["cart"]:
                 price += float(item["product"]["price"]) * int(item["qty"])
                 print(price,
-                    float(item["product"]["price"]) * int(item["qty"]))
+                      float(item["product"]["price"]) * int(item["qty"]))
 
             return redirect(url_for("payment_page", price=price))
 
         return rt("cart.html",
-                props={
-                    'current_user': current_user,
-                    'form': form,
-                })
+                  props={
+                      'current_user': current_user,
+                      'form': form,
+                  })
     else:
         return redirect(url_for("login_page"))
 
@@ -212,7 +300,15 @@ def payment_page():
 
     if form.validate_on_submit():
         # ADD TO ORDERS PAGE
-        current_user.user_data["orders"].append(current_user.user_data["cart"])
+        current_user.user_data["orders"] += current_user.user_data["cart"]
+
+        # TODO: GENERATE INVOICE
+        for idx, item in enumerate(current_user.user_data["cart"]):
+            product = db.fetch_one_from_table("products", "name",
+                                              item["product"]["name"])
+            product["qty"] = str(int(product["qty"]) - int(item["qty"]))
+            db.update_on_table("products", item["product"]["name"], product)
+
         current_user.user_data["cart"] = []
         db.update_on_table("users", current_user.user_data['username'],
                            current_user.user_data)

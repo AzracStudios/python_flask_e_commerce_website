@@ -1,7 +1,6 @@
-{% import "components/navbar_component.html" as nav %} 
-{% import "components/config.html" as config %}
-{% import "components/cart_item.html" as cart_item %}
-{% import "components/footer.html" as footer %}
+{% import "components/navbar_component.html" as nav %} {% import
+"components/config.html" as config %} {% import "components/cart_item.html" as
+cart_item %} {% import "components/footer.html" as footer %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,36 +10,34 @@
   <body>
     {{ nav.navbar(props.current_user) }}
     <main>
-        <p class="title">Shopping Cart</p>
-        <div class="break"></div>
-        {% set cart = props.current_user.user_data.cart %}
-        {% set item_total = {'total': 0} %}
+      <p class="title">Shopping Cart</p>
 
-        {% if cart %}
-            {% for item in cart %}
-                {{ cart_item.cart_item(item, loop.index, item.qty) }}
-                {% if item_total.update({'total': (item_total.total | int + ((item.product.price | int) * item.qty | int)) | int}) %} {% endif %}
-            {% endfor %}
+      <div class="break"></div>
+      {% set cart = props.current_user.user_data.cart %} {% set item_total =
+      {'total': 0} %} {% if cart %} {% for item in cart %} {{
+      cart_item.cart_item(item, loop.index, item.qty) }} {% if
+      item_total.update({'total': (item_total.total | int + ((item.product.price
+      | int) * item.qty | int)) | int}) %} {% endif %} {% endfor %}
+      <div class="break"></div>
+      <div class="summary">
+        <p class="title">Order Summary:</p>
+        <p><strong>Subtotal : </strong> $ {{ item_total.total }}</p>
+        <p><strong>GST : </strong> $ {{ (item_total.total * 0.05) | int }}</p>
+        <p><strong>Shipping : </strong> $ 12</p>
+        <div class="smbreak"></div>
+        <p>
+          <strong>Grand Total : </strong> $ {{ item_total.total * 1.05 | int +
+          12}}
+        </p>
+        <div class="smbreak"></div>
+        <form method="post">{{ props.form.submit }}</form>
+      </div>
 
-            <div class="break"></div>
-
-            <div class="summary">
-                <p class="title">Order Summary: </p>
-                <p><strong>Subtotal : </strong> $ {{ item_total.total }}</p>
-                <p><strong>GST : </strong> $ {{ (item_total.total * 0.05) | int }}</p>
-                <p><strong>Shipping : </strong> $ 12</p>
-                <div class="smbreak"></div>
-                <p><strong>Grand Total : </strong> $ {{ item_total.total * 1.05 | int + 12}}</p>
-                <div class="smbreak"></div>
-                <form method="post">
-                    {{ props.form.submit }}
-                </form>
-            </div>
-
-        {% else %}
-            <p class="empty">No Items In Cart! <a href="/brands">  Continue shopping</a></p>
-        {% endif %}
-
+      {% else %}
+      <p class="empty">
+        No Items In Cart! <a href="/brands"> Continue shopping</a>
+      </p>
+      {% endif %}
     </main>
     {{ footer.footer() }}
   </body>

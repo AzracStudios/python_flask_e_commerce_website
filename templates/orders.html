@@ -1,6 +1,6 @@
 {% import "components/navbar_component.html" as nav %} 
 {% import "components/config.html" as config %}
-{% import "components/order_item.html" as order_item %}
+{% import "components/order_item.html" as order %}
 {% import "components/footer.html" as footer %}
 
 <!DOCTYPE html>
@@ -13,14 +13,14 @@
     <main>
         <p class="title">Orders</p>
         <div class="break"></div>
-        {% set orders = current_user.user_data.order %}
+        {% set orders = current_user.user_data.orders %}
 
         {% if orders %}
             {% for item in orders %}
-                {{ order_item.order_item(item, loop.index, item.qty) }}
+                {{ order.order_item(item, loop.index, item.qty) }}
             {% endfor %}
-
         {% else %}
+
             <p class="empty">No Orders Placed! <a href="/brands">  Continue shopping</a></p>
         {% endif %}
 

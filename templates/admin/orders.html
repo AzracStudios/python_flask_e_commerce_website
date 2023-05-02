@@ -1,0 +1,78 @@
+{% import "/admin/components/nav.html" as nav %} {% import
+"/components/config.html" as config %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="shortcut icon"
+      href="/static/assets/favicon.svg"
+      type="image/x-icon"
+    />
+
+    <link rel="stylesheet" href="/static/AdminGlobal.css" />
+    <link rel="stylesheet" href="/static/AdminProduct.css" />
+    <title>Admin | Products</title>
+  </head>
+  <body>
+    {{nav.navbar()}}
+    <div class="wrapper">
+      <div class="head">
+        <h2>Orders</h2>
+      </div>
+
+      <table>
+        {% for user in users %} {% if user.orders %}
+        <tr>
+          <th>ID</th>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Qty</th>
+          <th>Username</th>
+          <th>Address</th>
+          <th>Brand</th>
+          <th>Price</th>
+        </tr>
+
+        {% for order in user.orders %} 
+        {%set qty = order.qty%} 
+        {%set product = order.product%}
+        <tr>
+          <td width="5%">{{ loop.index }}</td>
+          <td width="10%">
+            <img
+              style="
+                width: 50px;
+                border-radius: 50%;
+                aspect-ratio: 1;
+                object-fit: cover;
+              "
+              src="{{product.img}}"
+            />
+          </td>
+          <td width="10%">{{ product.name }}</td>
+          <td width="10%">{{ qty }}</td>
+          <td width="15%">{{ user.username }}</td>
+          <td width="15%">{{ user.address }}</td>
+          <td width="15%">{{ product.brand }}</td>
+          <td width="15%">$ {{ product.price }}</td>
+        </tr>
+
+        {% endfor %} 
+        {% endif %}
+        {% endfor %}
+      </table>
+    </div>
+  </body>
+</html>

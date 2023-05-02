@@ -13,7 +13,6 @@ a {
   color: white;
   text-decoration: none;
 }
-
 /* NAVBAR */
 
 nav {
@@ -32,7 +31,7 @@ nav {
 }
 
 nav a {
-  font-size: 1.7rem;
+  font-size: 1.2rem;
 }
 
 nav ul {
@@ -50,7 +49,7 @@ nav ul li {
 }
 
 nav ul li a {
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 nav ul li a .hover_line {
