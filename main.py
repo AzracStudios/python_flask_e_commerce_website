@@ -48,7 +48,7 @@ def load_user(user_id):
 ## ADMIN
 @app.route("/admin", methods=["GET"])
 def admin():
-    return rt("admin/dash.html")
+    return rt("admin/products.html")
 
 
 @app.route("/admin/products/", methods=["GET"])
@@ -293,8 +293,8 @@ def order_page():
 
 
 # PAYMENT PAGE
-@app.route("/payment", methods=["GET", "POST"])
-def payment_page():
+@app.route("/payment/card", methods=["GET", "POST"])
+def payment_card():
     form = PaymentForm()
     item_price = request.args.get("price")
 
@@ -316,8 +316,37 @@ def payment_page():
         # REDIRECT TO SUCCESS PAGE
         return redirect(url_for("payment_success_page"))
 
-    return rt("payment.html", props={'form': form, 'item_total': item_price})
+    return rt("payment_card.html", props={'form': form, 'item_total': item_price})
 
+
+@app.route("/payment/paypal", methods=["GET", "POST"])
+def payment_paypal():
+    form = PaymentForm()
+    item_price = request.args.get("price")
+
+    if form.validate_on_submit():
+        # ADD TO ORDERS PAGE
+        current_user.user_data["orders"] += current_user.user_data["cart"]
+
+        # TODO: GENERATE INVOICE
+        for idx, item in enumerate(current_user.user_data["cart"]):
+            product = db.fetch_one_from_table("products", "name",
+                                              item["product"]["name"])
+            product["qty"] = str(int(product["qty"]) - int(item["qty"]))
+            db.update_on_table("products", item["product"]["name"], product)
+
+        current_user.user_data["cart"] = []
+        db.update_on_table("users", current_user.user_data['username'],
+                           current_user.user_data)
+
+        # REDIRECT TO SUCCESS PAGE
+        return redirect(url_for("payment_success_page"))
+
+    return rt("payment_paypal.html", props={'form': form, 'item_total': item_price})
+
+@app.route("/payment", methods=["GET"])
+def payment():
+    return rt("payment_method.html")
 
 # PAYMENT SUCCESS PAGE
 @app.route("/paymentsuccess", methods=["GET", "POST"])

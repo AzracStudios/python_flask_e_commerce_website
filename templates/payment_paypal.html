@@ -1,0 +1,20 @@
+{% import "components/navbar_component.html" as nav %} 
+{% import "components/config.html" as config %} 
+{% import "components/footer.html" as footer %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{ config.config("Payment") }}
+  </head>
+  <body>
+    {{ nav.navbar(current_user) }}
+    <main style="width:100vw;">
+        <form method="post" style="margin-inline: auto; display: flex; flex-direction: column;">
+            <img src="/static/assets/qr.png" alt="qr-code" style="width: 10rem;">
+            {{ props.form.submit }}
+        </form>
+    </main>
+    {{ footer.footer() }}
+  </body>
+</html>

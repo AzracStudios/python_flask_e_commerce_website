@@ -1,0 +1,45 @@
+{% import "components/navbar_component.html" as nav %} {% import
+"components/config.html" as config %} {% import "components/footer.html" as
+footer %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{ config.config("Payment") }}
+  </head>
+  <body>
+    {{ nav.navbar(current_user) }}
+    <main style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <h1 style="text-align: center;">Select Payment Method</h1>
+      <div class="cont" style="display: flex">
+        <a href="/payment/paypal" style="color: black">
+          <div
+            class="sec"
+            style="display: flex; flex-direction: column; align-items: center"
+          >
+            <img
+              src="/static/assets/paypal.webp"
+              alt="paypal"
+              style="width: 15rem"
+            />
+            <h3>Paypal</h3>
+          </div>
+        </a>
+        <a href="/payment/card" style="color: black">
+          <div
+            class="sec"
+            style="display: flex; flex-direction: column; align-items: center"
+          >
+            <img
+              src="/static/assets/card.webp"
+              alt="card"
+              style="width: 15rem"
+            />
+            <h3>Card</h3>
+          </div>
+        </a>
+      </div>
+    </main>
+    {{ footer.footer() }}
+  </body>
+</html>

@@ -51,51 +51,6 @@ def _build_itemized_description_table(items):
                                 "." + str(item[4]).split(".")[1][0]),
                       background_color=c))
 
-    # table_001.add(
-    #     TableCell(
-    #         Paragraph(
-    #             "Subtotal",
-    #             font="Helvetica-Bold",
-    #             horizontal_alignment=Alignment.RIGHT,
-    #         ),
-    #         col_span=3,
-    #     ))
-
-    # table_001.add(
-    #     TableCell(Paragraph("$ 1,180.00",
-    #                         horizontal_alignment=Alignment.RIGHT)))
-    # table_001.add(
-    #     TableCell(
-    #         Paragraph(
-    #             "Discounts",
-    #             font="Helvetica-Bold",
-    #             horizontal_alignment=Alignment.RIGHT,
-    #         ),
-    #         col_span=3,
-    #     ))
-    # table_001.add(
-    #     TableCell(Paragraph("$ 177.00", horizontal_alignment=Alignment.RIGHT)))
-    # table_001.add(
-    #     TableCell(
-    #         Paragraph("Taxes",
-    #                   font="Helvetica-Bold",
-    #                   horizontal_alignment=Alignment.RIGHT),
-    #         col_span=3,
-    #     ))
-    # table_001.add(
-    #     TableCell(Paragraph("$ 100.30", horizontal_alignment=Alignment.RIGHT)))
-    # table_001.add(
-    #     TableCell(
-    #         Paragraph("Total",
-    #                   font="Helvetica-Bold",
-    #                   horizontal_alignment=Alignment.RIGHT),
-    #         col_span=3,
-    #     ))
-    # table_001.add(
-    #     TableCell(Paragraph("$ 1163.30",
-    #                         horizontal_alignment=Alignment.RIGHT)))
-    # table_001.set_padding_on_all_cells(Decimal(2), Decimal(2), Decimal(2),
-    #                                    Decimal(2))
     table_001.no_borders()
     return table_001
 
