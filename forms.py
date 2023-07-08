@@ -63,6 +63,9 @@ class PaymentForm(FlaskForm):
     address = StringField(validators=[InputRequired()])
     submit = SubmitField("Make payment")
 
+class PaymentPaypalForm(FlaskForm):
+    submit = SubmitField("Make payment")
+
 
 class SuccessReturnForm(FlaskForm):
     submit = SubmitField("Return to shop")

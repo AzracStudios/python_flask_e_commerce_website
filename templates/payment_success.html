@@ -1,28 +1,64 @@
-{% import "components/navbar_component.html" as nav %} 
-{% import "components/config.html" as config %} 
+{% import "components/navbar_component.html" as nav %}
+{% import "components/config.html" as config %}
 {% import "components/footer.html" as footer %}
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    {{ config.config("Payment Success!", "Payment_Success") }}
-  </head>
-  <body>
-    {{ nav.navbar(current_user) }}
 
-    <main>
-      <p class="title">Order placed successfully!</p>
-      <p class="subtext">Thankyou for shopping with us</p>
-      <div class="ctrls">
-        <a href="/brands">
-            <button>Continue shopping</button>
-        </a>
-        <a href="/orders">
-            <button>View order</button>
-        </a>
-      </div>
-    </main>
+<head>
+  {{ config.config("Payment Success!", "Payment_Success") }}
+  <meta id="bill-data" data-bill="{{props.bill}}">
 
-    {{ footer.footer() }}
-  </body>
+
+</head>
+
+<body>
+  {{ nav.navbar(current_user) }}
+  <main>
+    <p class="title">Order placed successfully!</p>
+    <p class="subtext">Thankyou for shopping with us</p>
+    <div class="ctrls">
+      <a href="/brands">
+        <button>Continue shopping</button>
+      </a>
+      <a href="/orders">
+        <button>View order</button>
+      </a>
+
+      <button id="bill-download-button">Download Bill</button>
+      <script>
+        function handleSubmit(e) {
+          let data = JSON.parse(document.querySelector('#bill-data').dataset.bill.replaceAll("'", '"'));
+          let bill = `#,Product Name,Brand,Price,Qty\n`;
+          let sub = 0
+          for (let i = 0; i < data.length; i++) {
+            const element = data[i];
+            bill += `${i + 1},${element.product.name},${element.product.brand},${element.product.price},${element.qty}\n`
+            sub += parseFloat(element.product.price) * parseFloat(element.qty)
+          }
+          bill += `\n\n,Subtotal,$${sub}\n,VAT,$${sub * 0.05}\n,Shipping,$12\n,Grand Total,$${(sub * 1.05 + 12)}\n`
+
+          var element = document.createElement('a');
+          element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(bill));
+          element.setAttribute('download', 'invoice.csv');
+          element.style.display = 'none';
+          document.body.appendChild(element);
+          element.click();
+          document.body.removeChild(element);
+
+          var nelement = document.createElement("a");
+          nelement.setAttribute("href", "/brands")
+          nelement.style.display = "none";
+          document.body.appendChild(nelement);
+          nelement.click();
+          document.body.removeChild(nelement);
+        }
+        document.getElementById("bill-download-button").addEventListener("click", () => { handleSubmit() })
+      </script>
+    </div>
+  </main>
+
+  {{ footer.footer() }}
+</body>
+
 </html>

@@ -272,7 +272,7 @@ def cart_page():
                 print(price,
                       float(item["product"]["price"]) * int(item["qty"]))
 
-            return redirect(url_for("payment_page", price=price))
+            return redirect(url_for("payment", price=price))
 
         return rt("cart.html",
                   props={
@@ -319,13 +319,17 @@ def payment_card():
     return rt("payment_card.html", props={'form': form, 'item_total': item_price})
 
 
+BILL_DATA = None
+
 @app.route("/payment/paypal", methods=["GET", "POST"])
 def payment_paypal():
-    form = PaymentForm()
+    form = PaymentPaypalForm()
     item_price = request.args.get("price")
 
     if form.validate_on_submit():
         # ADD TO ORDERS PAGE
+        global BILL_DATA
+        BILL_DATA = current_user.user_data["cart"]
         current_user.user_data["orders"] += current_user.user_data["cart"]
 
         # TODO: GENERATE INVOICE
@@ -354,7 +358,7 @@ def payment_success_page():
     form = SuccessReturnForm()
     if form.is_submitted():
         return redirect(url_for("brands"))
-    return rt("payment_success.html", form=form)
+    return rt("payment_success.html", props={'form': form, 'bill': BILL_DATA})
 
 
 # STATIC URLS
