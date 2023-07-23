@@ -36,7 +36,7 @@ class RegisterForm(FlaskForm):
     submit = SubmitField("Sign Up")
 
     def validate_username(self, username):
-        existing_username = db.fetch_one_from_table("users", "username",
+        existing_username = udb.fetch_one_from_table("users", "username",
                                                     username)
         if existing_username:
             raise ValidationError("Username already exists")

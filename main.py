@@ -37,7 +37,7 @@ class User(UserMixin):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User(db.fetch_one_from_table("users", "id", user_id))
+    return User(udb.fetch_one_from_table("users", "id", user_id))
 
 
 # ========
@@ -48,7 +48,7 @@ def load_user(user_id):
 ## ADMIN
 @app.route("/admin", methods=["GET"])
 def admin():
-    return rt("admin/products.html")
+    return redirect(url_for("admin_products"))
 
 
 @app.route("/admin/products/", methods=["GET"])
@@ -126,7 +126,7 @@ def admin_new_brand():
 
 @app.route("/admin/orders/", methods=["GET"])
 def admin_orders():
-    return rt("admin/orders.html", users=db.fetch_all_from_table("users"))
+    return rt("admin/orders.html", users=udb.fetch_all_from_table("users"))
 
 
 # HOME PAGE
@@ -147,7 +147,7 @@ def login_page():
     form = LoginForm()
 
     if form.validate_on_submit():
-        user = db.fetch_one_from_table("users", "username",
+        user = udb.fetch_one_from_table("users", "username",
                                        str(form.username.data))
         if user:
             if bcrypt.check_password_hash(user["password"],
@@ -175,7 +175,7 @@ def register_page():
 
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
-        db.add_to_table(
+        udb.add_to_table(
             "users", {
                 "username": form.username.data,
                 "password": hashed_password.decode("utf8"),
@@ -227,7 +227,7 @@ def product_page(brand_name, product_id):
             return redirect(url_for("login_page"))
 
         current_user_data['cart'].append({"product": product, "qty": qty})
-        db.update_on_table("users", current_user_data['username'],
+        udb.update_on_table("users", current_user_data['username'],
                            current_user_data)
         current_user.user_data = current_user_data
 
@@ -261,7 +261,7 @@ def cart_page():
                 item["qty"] = catch_update["qty"]
                 break
 
-        db.update_on_table("users", current_user.user_data['username'],
+        udb.update_on_table("users", current_user.user_data['username'],
                            current_user.user_data)
 
         if form.is_submitted():
@@ -307,10 +307,10 @@ def payment_card():
             product = db.fetch_one_from_table("products", "name",
                                               item["product"]["name"])
             product["qty"] = str(int(product["qty"]) - int(item["qty"]))
-            db.update_on_table("products", item["product"]["name"], product)
+            db.update_on_table("products",  product)
 
         current_user.user_data["cart"] = []
-        db.update_on_table("users", current_user.user_data['username'],
+        udb.update_on_table("users", current_user.user_data['username'],
                            current_user.user_data)
 
         # REDIRECT TO SUCCESS PAGE
@@ -337,10 +337,10 @@ def payment_paypal():
             product = db.fetch_one_from_table("products", "name",
                                               item["product"]["name"])
             product["qty"] = str(int(product["qty"]) - int(item["qty"]))
-            db.update_on_table("products", item["product"]["name"], product)
+            db.update_on_table("products", product)
 
         current_user.user_data["cart"] = []
-        db.update_on_table("users", current_user.user_data['username'],
+        udb.update_on_table("users", current_user.user_data['username'],
                            current_user.user_data)
 
         # REDIRECT TO SUCCESS PAGE

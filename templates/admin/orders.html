@@ -33,7 +33,7 @@
       </div>
 
       <table>
-        {% for user in users %} {% if user.orders %}
+        
         <tr>
           <th>ID</th>
           <th>Image</th>
@@ -44,33 +44,35 @@
           <th>Brand</th>
           <th>Price</th>
         </tr>
+        {% for user in users %} 
+          {%set index = loop.index %}
+          {% if user.orders %}
+            {% for order in user.orders %} 
+              {%set qty = order.qty%} 
+              {%set product = order.product%}
+              <tr>
+                <td width="5%">{{ index }}</td>
+                <td width="10%">
+                  <img
+                    style="
+                      width: 50px;
+                      border-radius: 50%;
+                      aspect-ratio: 1;
+                      object-fit: cover;
+                    "
+                    src="{{product.img}}"
+                  />
+                </td>
+                <td width="10%">{{ product.name }}</td>
+                <td width="10%">{{ qty }}</td>
+                <td width="15%">{{ user.username }}</td>
+                <td width="15%">{{ user.address }}</td>
+                <td width="15%">{{ product.brand }}</td>
+                <td width="15%">$ {{ product.price }}</td>
+              </tr>
 
-        {% for order in user.orders %} 
-        {%set qty = order.qty%} 
-        {%set product = order.product%}
-        <tr>
-          <td width="5%">{{ loop.index }}</td>
-          <td width="10%">
-            <img
-              style="
-                width: 50px;
-                border-radius: 50%;
-                aspect-ratio: 1;
-                object-fit: cover;
-              "
-              src="{{product.img}}"
-            />
-          </td>
-          <td width="10%">{{ product.name }}</td>
-          <td width="10%">{{ qty }}</td>
-          <td width="15%">{{ user.username }}</td>
-          <td width="15%">{{ user.address }}</td>
-          <td width="15%">{{ product.brand }}</td>
-          <td width="15%">$ {{ product.price }}</td>
-        </tr>
-
-        {% endfor %} 
-        {% endif %}
+            {% endfor %} 
+          {% endif %}
         {% endfor %}
       </table>
     </div>

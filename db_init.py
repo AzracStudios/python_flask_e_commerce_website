@@ -1,10 +1,10 @@
-def init(db):
+def init(db, udb):
     db.create_table("brands", ["id", "name", "img"], "name")
     db.create_table(
         "products",
         ["id", "name", "price", "img", "qty", "description", "brand"], "name")
 
-    db.create_table("users", ["id", "username", "password", "address", "cart", "orders"],
+    udb.create_table("users", ["id", "username", "password", "address", "cart", "orders"],
                     "username")
 
     # ADD BRANDS
