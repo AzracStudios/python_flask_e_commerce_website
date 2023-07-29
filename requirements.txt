@@ -4,4 +4,4 @@ flask_bcrypt
 flask_wtf
 wtforms
 borb
-mysql-connector
+mysql-connector-python
