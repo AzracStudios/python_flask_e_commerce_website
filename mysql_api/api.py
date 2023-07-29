@@ -6,8 +6,8 @@ class MysqlAPI:
     def __init__(self, name):
         self.mydb = mysql.connector.connect(
             host="localhost",
-            user="azrac",
-            password="123",
+            user="YOUR_MYSQL_USERNAME",
+            password="YOUR_MYSQL_USERNAME",
             database=name
         )
         self.cur = self.mydb.cursor()
