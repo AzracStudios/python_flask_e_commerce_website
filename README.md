@@ -31,7 +31,7 @@ To run the app:
 - Install requirements
 - Run
 
-`$ git clone git@github.com:AzracStudios/python_flask_e_commerce_website.git`
+`$ git clone https://www.github.com/AzracStudios/tee-vista.git`
 
 `$ cd python_flask_e_commerce_website`
 
